@@ -4,6 +4,7 @@
   "main": "server/app.js",
   "dependencies": {
     "body-parser": "~1.5.0",
+    "cloudinary": "^1.4.1",
     "composable-middleware": "^0.3.0",
     "compression": "~1.0.1",
     "connect-mongo": "^0.8.1",
@@ -18,6 +19,7 @@
     "method-override": "~1.0.0",
     "mongoose": "~4.0.3",
     "morgan": "~1.0.0",
+    "multer": "^1.2.0",
     "passport": "~0.2.0",
     "passport-google-oauth": "latest",
     "passport-local": "~0.1.6",
