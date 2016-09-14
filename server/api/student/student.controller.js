@@ -1,6 +1,6 @@
 'use strict';
 
-var User = require('./user.model');
+var Student = require('./student.model');
 var passport = require('passport');
 var config = require('../../config/environment');
 var jwt = require('jsonwebtoken');
@@ -10,66 +10,66 @@ var validationError = function(res, err) {
 };
 
 /**
- * Get list of users
+ * Get list of students
  * restriction: 'admin'
  */
 exports.index = function(req, res) {
-  User.find({}, '-salt -hashedPassword', function (err, users) {
+  Student.find({}, '-salt -hashedPassword', function (err, students) {
     if(err) return res.status(500).send(err);
-    res.status(200).json(users);
+    res.status(200).json(students);
   });
 };
 
 /**
- * Creates a new user
+ * Creates a new student
  */
 exports.create = function (req, res, next) {
-  var newUser = new User(req.body);
-  newUser.provider = 'local';
-  newUser.role = 'user';
-  newUser.save(function(err, user) {
+  var newStudent = new Student(req.body);
+  newStudent.provider = 'local';
+  newStudent.role = 'student';
+  newStudent.save(function(err, student) {
     if (err) return validationError(res, err);
-    var token = jwt.sign({_id: user._id }, config.secrets.session, { expiresInMinutes: 60*5 });
+    var token = jwt.sign({_id: Student._id }, config.secrets.session, { expiresInMinutes: 60*5 });
     res.json({ token: token });
   });
 };
 
 /**
- * Get a single user
+ * Get a single Student
  */
 exports.show = function (req, res, next) {
-  var userId = req.params.id;
+  var studentId = req.params.id;
 
-  User.findById(userId, function (err, user) {
+  Student.findById(studentId, function (err, student) {
     if (err) return next(err);
-    if (!user) return res.status(401).send('Unauthorized');
-    res.json(user.profile);
+    if (!student) return res.status(401).send('Unauthorized');
+    res.json(student.profile);
   });
 };
 
 /**
- * Deletes a user
+ * Deletes a Student
  * restriction: 'admin'
  */
 exports.destroy = function(req, res) {
-  User.findByIdAndRemove(req.params.id, function(err, user) {
+  Student.findByIdAndRemove(req.params.id, function(err, student) {
     if(err) return res.status(500).send(err);
     return res.status(204).send('No Content');
   });
 };
 
 /**
- * Change a users password
+ * Change a students password
  */
 exports.changePassword = function(req, res, next) {
-  var userId = req.user._id;
+  var studentId = req.student._id;
   var oldPass = String(req.body.oldPassword);
   var newPass = String(req.body.newPassword);
 
-  User.findById(userId, function (err, user) {
-    if(user.authenticate(oldPass)) {
-      user.password = newPass;
-      user.save(function(err) {
+  Student.findById(studentId, function (err, student) {
+    if(student.authenticate(oldPass)) {
+      student.password = newPass;
+      student.save(function(err) {
         if (err) return validationError(res, err);
         res.status(200).send('OK');
       });
@@ -83,14 +83,14 @@ exports.changePassword = function(req, res, next) {
  * Get my info
  */
 exports.me = function(req, res, next) {
-  var userId = req.user._id;
-  console.log(req.user._id);
+  var studentId = req.student._id;
+  console.log(req.student._id);
   User.findOne({
-    _id: userId
-  }, '-salt -hashedPassword', function(err, user) { // don't ever give out the password or salt
+    _id: studentId
+  }, '-salt -hashedPassword', function(err, student) { // don't ever give out the password or salt
     if (err) return next(err);
-    if (!user) return res.status(401).send('Unauthorized');
-    res.json(user);
+    if (!student) return res.status(401).send('Unauthorized');
+    res.json(student);
   });
 };
 
