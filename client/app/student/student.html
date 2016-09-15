@@ -2,6 +2,16 @@
 
 <div class="container">
 
+  <p>student list.</p>
+  <ul class="list-group">
+    <li class="list-group-item" ng-repeat="student in students">
+      <strong>{{student.country}}</strong><br>
+      <span class="text-muted">{{student.city}} , {{student.code}}</span>
+      <a ng-click="delete(student)" class="trash"><span class="glyphicon glyphicon-trash pull-right"></span></a>
+      <a ng-click="edit(student)" class="edit"><span class="glyphicon glyphicon-edit pull-right"></span></a>
+    </li>
+  </ul>
+
   <form class="form" name="form1" ng-submit="addStudent(form1)">
 
     <div class="form-group" >
@@ -27,7 +37,7 @@
       <button ng-show="student.updateId" class="btn btn-inverse btn-lg btn-login" type="submit">
         Edit student
       </button>
-      <button ng-show="student.updateId" ng-click="addNewLoc()" class="btn btn-inverse btn-lg btn-login" >
+      <button ng-show="student.updateId" ng-click="addNewStd()" class="btn btn-inverse btn-lg btn-login" >
       Add new student
     </button>
     </div>

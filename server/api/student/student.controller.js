@@ -14,7 +14,7 @@ var validationError = function(res, err) {
  * restriction: 'admin'
  */
 exports.index = function(req, res) {
-  Student.find({}, '-salt -hashedPassword', function (err, students) {
+  Student.find({}, function (err, students) {
     if(err) return res.status(500).send(err);
     res.status(200).json(students);
   });
@@ -25,12 +25,8 @@ exports.index = function(req, res) {
  */
 exports.create = function (req, res, next) {
   var newStudent = new Student(req.body);
-  newStudent.provider = 'local';
-  newStudent.role = 'student';
   newStudent.save(function(err, student) {
-    if (err) return validationError(res, err);
-    var token = jwt.sign({_id: Student._id }, config.secrets.session, { expiresInMinutes: 60*5 });
-    res.json({ token: token });
+    res.json({ newStudent: newStudent });
   });
 };
 
@@ -47,6 +43,20 @@ exports.show = function (req, res, next) {
   });
 };
 
+
+// Updates an existing student in the DB.
+exports.update = function(req, res) {
+  if(req.body._id) { delete req.body._id; }
+  student.findById(req.params.id, function (err, student) {
+    if (err) { return handleError(res, err); }
+    if(!student) { return res.status(404).send('Not Found'); }
+    var updated = _.merge(student, req.body);
+    updated.save(function (err) {
+      if (err) { return handleError(res, err); }
+      return res.status(200).json(student);
+    });
+  });
+}; 
 /**
  * Deletes a Student
  * restriction: 'admin'

@@ -27,7 +27,18 @@ angular.module('myproApp')
           });
        }else{
 
-        Loc.get({ id: $scope.location.updateId },function(data){
+	   Loc.update({ id:$scope.location.updateId }, $scope.location);
+	   angular.forEach($scope.locations, function(u, i) {
+            if (u._id === $scope.location.updateId) {
+              u.country = $scope.location.country;
+              u.city = $scope.location.city;
+              u.code = $scope.location.code;
+            }
+          });
+		  
+	   // console.log($scope.location);
+	   
+       /*  Loc.get({ id: $scope.location.updateId },function(data){
           var oldLoc = {};
           oldLoc = Object.create(data);
 
@@ -45,7 +56,7 @@ angular.module('myproApp')
               u.code = oldLoc.code;
             }
           });
-        });
+        }); */
       }
       };
 
@@ -55,8 +66,8 @@ angular.module('myproApp')
       $scope.location.city = location.city;
       $scope.location.code = location.code;
       $scope.location.updateId = location._id;
-      console.info(location);
-      console.info($scope.location);
+      // console.info(location);
+      // console.info($scope.location);
       //$scope.location = {};
 
       /*Loc.save($scope.location,
