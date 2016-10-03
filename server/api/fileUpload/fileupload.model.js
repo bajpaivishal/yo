@@ -7,7 +7,8 @@ var LocationSchema = new Schema({
   country: String,
   city: String,
   code: String,
-  active: Boolean
+  active: Boolean,
+  user: String
 });
 
 module.exports = mongoose.model('Fileupload', LocationSchema);

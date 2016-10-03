@@ -8,11 +8,15 @@ angular.module('myproApp')
     $scope.register = function(form) {
       $scope.submitted = true;
 
+	  console.log($scope.user.myFile);
+	  console.log($scope.user.name);
+	  
       if(form.$valid) {
-        Auth.createUser({
+		  Auth.createUser({
           name: $scope.user.name,
           email: $scope.user.email,
-          password: $scope.user.password
+          password: $scope.user.password,
+		  image: $scope.user.myFile
         })
         .then( function() {
           // Account created, redirect to home

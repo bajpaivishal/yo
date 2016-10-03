@@ -58,6 +58,11 @@ angular.module('myproApp')
        */
         createUser: function(user, callback) {
           var cb = callback || angular.noop;
+		  console.log(user);
+		  
+		//var file = $scope.user.myFile;
+        //var uploadUrl = "/api/fileUpload";
+        //fileUpload.uploadFileToUrl(file, uploadUrl);
 
           return User.save(user,
             function(data) {

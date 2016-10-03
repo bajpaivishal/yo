@@ -1,35 +1,39 @@
 'use strict';
 
 angular.module('myproApp')
-  .controller('StudentCtrl', function ($scope, Std) {
-	$scope.students = [];
+  .controller('StudentCtrl', function ($scope, Std, fileUpload) {
+	$scope.students = {};
 	$scope.students = Std.query({});
 	
 	
     $scope.addStudent = function(form1) {
-    console.info(form1,$scope.student);
-     console.info($scope.student);
+     //console.info($scope.student);
       if(!$scope.student.updateId){
         Std.save($scope.student,function(data) {
-            //console.info(data);
-            $scope.students.push(data);
-           // $scope.student = {};
+			var file = $scope.vsFile;
+			
+			var uploadUrl = "/api/fileUpload";
+			fileUpload.uploadFileToUrl(file, uploadUrl);
+
+            $scope.students.push(data.newStudent);
+           $scope.student = {};
           });
        }else{
-		  Std.update({ id:$scope.student.updateId }, $scope.student);
-		   angular.forEach($scope.students, function(u, i) {
-				if (u._id === $scope.student.updateId) {
-				  u.country = $scope.student.country;
-				  u.city = $scope.student.city;
-				  u.code = $scope.student.code;
-				}
-			  });
-		
+		//Std.update({ id:$scope.student.updateId }, $scope.student);
+		Std.update({ id:$scope.student.updateId }, $scope.student);	
+		 angular.forEach($scope.students, function(u, i) {
+            if (u._id === $scope.student.updateId) {
+              u.country = $scope.student.country;
+              u.city = $scope.student.city;
+              u.code = $scope.student.code;
+            }
+          });
 	   }
     };
 	
 	
 	$scope.delete = function(student) {
+	//console.info(student);
     Std.remove({ id: student._id });
       angular.forEach($scope.students, function(u, i) {
         if (u === student) {
@@ -44,6 +48,8 @@ angular.module('myproApp')
 		$scope.student.country = student.country;
 		$scope.student.city = student.city;
 		$scope.student.code = student.code;
+		$scope.student.email = student.email;
+		$scope.student.phone = student.phone;
 		$scope.student.updateId = student._id;
 	};
 	

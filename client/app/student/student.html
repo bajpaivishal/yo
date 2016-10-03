@@ -6,7 +6,7 @@
   <ul class="list-group">
     <li class="list-group-item" ng-repeat="student in students">
       <strong>{{student.country}}</strong><br>
-      <span class="text-muted">{{student.city}} , {{student.code}}</span>
+      <span class="text-muted">{{student.city}} , {{student.code}}, {{student.email}}, {{student.phone}}</span>
       <a ng-click="delete(student)" class="trash"><span class="glyphicon glyphicon-trash pull-right"></span></a>
       <a ng-click="edit(student)" class="edit"><span class="glyphicon glyphicon-edit pull-right"></span></a>
     </li>
@@ -30,6 +30,24 @@
       <input type="text"  class="form-control" ng-model="student.code"
              required/>
     </div>
+	
+	<div class="form-group" >
+      <label>Email</label>
+      <input type="text"  class="form-control" ng-model="student.email"
+             required/>
+    </div>
+	
+	<div class="form-group" >
+      <label>Phone</label>
+      <input type="text"  class="form-control" ng-model="student.phone"
+             required/>
+    </div>
+	
+	<div class="form-group" >
+      <label>User Image</label>
+      <input type="file" file-model="vsFile"  multiple/>
+    </div>
+	
     <div>
       <button ng-hide="student.updateId" class="btn btn-inverse btn-lg btn-login" type="submit">
         Add student
