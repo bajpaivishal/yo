@@ -1,0 +1,96 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4">
+      <form class="form" name="form" ng-submit="update(form)">	  
+			<div class="form-group" >
+			  <label>Name</label>
+			  <input type="text" class="form-control" value="{{ current.name }}"/>
+			</div>
+			<div class="form-group" >
+			  <label>Email</label>
+			  <input type="text" class="form-control" value="{{ current.email }}"/>
+			</div>
+			<div class="form-group" >
+			  <label>Role</label>
+			  <input type="text" class="form-control" value="{{ current.role }}"/>
+			</div>
+		        
+          <button class="btn btn-inverse btn-lg btn-login" type="submit">
+            Update
+          </button>
+        
+      </form>
+	  	<div class="row" style="margin: 20px 0px">
+			<div class="table-responsive">
+			  <table class="table table-bordered table-striped">	
+
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th> Total </th>		
+						<th> All Entries </th>	
+					</tr>
+				</thead>
+				
+				<tbody>
+					<tr  ng-repeat="amount in totalAmount">
+						<td>{{ amount._id }}</td>
+						<td>{{ amount.total }}</td>		
+						<td>{{ amount.list }}</td>	
+					</tr>
+				</tbody>
+			  </table>
+			</div>
+			
+			<div class="table-responsive">
+			  <table class="table table-bordered table-striped">	
+
+				<tbody>
+					<tr>
+						<td> Total Exp</td>
+						<td> {{ sum }} </td>		
+					</tr>
+					<tr>
+						<td> Per Candidate </td>
+						<td> {{ percandidate }} </td>		
+					</tr>
+				</tbody>
+			  </table>
+			</div>
+	
+		
+		</div>
+    </div>
+	
+	<div class="col-sm-8">
+
+		<div class="table-responsive ">
+			  <table class="table table-bordered table-striped">
+			    <thead>
+				  <tr>
+					<th>Date</th>
+					<th>Vishal</th>
+					<th>Vishnu</th>
+					<th>Mohsin</th>
+					<th>Aayush</th>
+				  </tr>
+				</thead>
+				<tbody>
+				  <tr ng-repeat="entry in entries ">
+					<td>{{ entry.date }}</td>
+					<td>{{ entry.memberPrice.vishal | number:2}}</td>
+					<td>{{ entry.memberPrice.vishnu | number:2}}</td>
+					<td>{{ entry.memberPrice.mohsin | number:2}}</td>
+					<td>{{ entry.memberPrice.aayush | number:2}}</td>
+					
+				  </tr>
+				</tbody>
+			  </table>
+			</div>
+	</div>
+	
+  </div>
+
+</div>

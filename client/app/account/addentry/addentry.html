@@ -1,0 +1,96 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+  <div class="row">
+
+      <form class="form" name="form" ng-submit="addentry(form)" novalidate>
+		<div class="col-sm-4">
+			<h3>Add New Entry</h3>
+			<div class="form-group" >
+			  <label>Entry By </label>
+			  <select id="user" class="form-control" ng-model="entry.name">
+					<option value="" selected="selected"> -- Select -- </option>
+					<option value="aayush"> Aayush </option>
+					<option value="vishal"> Vishal </option>
+					<option value="Moshin"> Mohsin </option>
+					<option value="vishnu"> Vishnu </option>
+			  </select>
+			</div>
+			<div class="form-group" >
+			  <label>Product Name</label>
+			  <input type="text" class="form-control" ng-model="entry.product"/>
+			</div>
+		
+			<div class="form-group" >
+				<label>Members Included</label>
+				<div class="form-check">				  
+					   <label>
+							<input type="checkbox" ng-model="entry.member.vishal"
+							ng-true-value="true" ng-false-value="false"> Vishal
+						</label>
+						<label>
+							<input type="checkbox" ng-model="entry.member.mohsin"
+							ng-true-value="true" ng-false-value="false"> Mohsin
+						</label>
+						<label>
+							<input type="checkbox" ng-model="entry.member.vishnu"
+							ng-true-value="true" ng-false-value="false"> Vishnu
+						</label>
+						<label>
+							<input type="checkbox" ng-model="entry.member.aayush"
+							ng-true-value="true" ng-false-value="false"> Aayush
+						</label>						
+				 </div>
+			</div>
+			  
+			<div class="form-group" >
+			  <label>Product Price</label>
+			  <input type="text" class="form-control" ng-model="entry.price"/>
+			</div>
+			<div class="form-group" >
+			  <label> Purchase Date</label>
+			  <input type="date" class="form-control" ng-model="entry.date"/>
+			</div>
+			
+			<div class="form-group" >
+			   <button class="btn btn-inverse" type="submit">
+				Add
+			  </button>
+			</div>
+		</div>	
+      </form>
+		
+		<div class="col-sm-8">
+			<h3>List Items</h3>
+			<div class="table-responsive ">
+			  <table class="table table-bordered table-striped">
+			    <thead>
+				  <tr>
+					<th>S.No</th>
+					<th>Name</th>
+					<th>Product</th>
+					<th>Price</th>
+					<th>Date</th>
+					<th>Member</th>
+					<th>Action</th>
+				  </tr>
+				</thead>
+				<tbody>
+				  <tr ng-repeat="entry in entries track by $index">
+					<td>{{$index+1}}</td>
+					<td>{{ entry.name }}</td>
+					<td>{{ entry.product }}</td>
+					<td>{{ entry.price }}</td>
+					<td>{{ entry.date }}</td>
+					<td>{{ entry.member | memberInc }}</td>
+					<td><a class="btn btn-transparent btn-rounded" ng-click="removeEntry(entry._id);">Delete</a></td>
+				  </tr>
+				</tbody>
+			  </table>
+			</div>
+		</div>
+
+	
+
+  </div>
+</div>
