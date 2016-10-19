@@ -21,22 +21,30 @@
 			  <input type="text" class="form-control" ng-model="entry.product"/>
 			</div>
 		
-			<div class="form-group" >
-				<label>Members Included</label>
-				<div class="form-check">				  
+			<div class="form-group" >				
+				<div class="form-check">
+						<label>
+							<span class="userimg"></span>
+							<input type="checkbox" ng-model="selectAll" ng-click="checkAll()" >  User
+						</label>
+						<br>				
 					   <label>
+							<span class="userimg"></span>
 							<input type="checkbox" ng-model="entry.member.vishal"
 							ng-true-value="true" ng-false-value="false"> Vishal
 						</label>
 						<label>
+							<span class="userimg"></span>
 							<input type="checkbox" ng-model="entry.member.mohsin"
 							ng-true-value="true" ng-false-value="false"> Mohsin
 						</label>
 						<label>
+							<span class="userimg"></span>
 							<input type="checkbox" ng-model="entry.member.vishnu"
 							ng-true-value="true" ng-false-value="false"> Vishnu
 						</label>
 						<label>
+							<span class="userimg"></span>
 							<input type="checkbox" ng-model="entry.member.aayush"
 							ng-true-value="true" ng-false-value="false"> Aayush
 						</label>						

@@ -6,6 +6,7 @@ app.controller('addEntryCtrl', function ($scope,Entry) {
 	$scope.entry = {};
 	$scope.entries = Entry.query({});
 	
+	
 	$scope.addentry = function(form) {
 		//console.log($scope.entry);
         Entry.save($scope.entry,function(data) {

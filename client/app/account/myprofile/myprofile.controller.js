@@ -9,7 +9,6 @@ angular.module('myproApp')
 	
 
 	$scope.totalAmount = 	Entry.total();
-	
 	Entry.total().$promise.then(function(data) {
 		$scope.sum = 0;
 		$scope.totalmem = 0;
@@ -20,8 +19,7 @@ angular.module('myproApp')
 			$scope.totalmem++;
 		})
 		
-		$scope.percandidate = $scope.sum / 4;
-		
+		$scope.percandidate = $scope.sum / 4;		
 	});;
 
 	
