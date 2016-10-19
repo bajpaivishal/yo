@@ -8,25 +8,20 @@ angular.module('myproApp')
         templateUrl: 'app/account/login/login.html',
         controller: 'LoginCtrl'
       })
-	  .state('vslogin', {
-        url: '/vslogin',
-        templateUrl: 'app/account/vslogin/vslogin.html',
-        controller: 'vsLoginCtrl'
-      })
       .state('signup', {
         url: '/signup',
         templateUrl: 'app/account/signup/signup.html',
         controller: 'SignupCtrl'
       })
-      .state('mysignup', {
-        url: '/mysignup',
-        templateUrl: 'app/account/mysignup/mysignup.html',
-        controller: 'MySignupCtrl'
+	  .state('myprofile', {
+        url: '/myprofile',
+        templateUrl: 'app/account/myprofile/myprofile.html',
+        controller: 'myProfileCtrl'
       })
-	  .state('vssignup', {
-        url: '/vssignup',
-        templateUrl: 'app/account/vssignup/vssignup.html',
-        controller: 'vsSignupCtrl'
+	  .state('addentry', {
+        url: '/addentry',
+        templateUrl: 'app/account/addentry/addentry.html',
+        controller: 'addEntryCtrl'
       })
       .state('settings', {
         url: '/settings',

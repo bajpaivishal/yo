@@ -16,9 +16,8 @@ exports.index = function(req, res) {
 		cloudinary.uploader.upload(req.files[0].destination +"/"+ req.files[0].filename, function(result) {
   });
   //db.things.insert({ name : 'Arvind', gender : 'male'});
-  db.fileuploads.insert( { user : "test" } );
-  
-  return res.status(200).json({donee:"okay"});
+  //db.fileuploads.insert( { user : "test" } );
+  return res.status(200).json({fileName:req.files[0].filename});
   
 };
 

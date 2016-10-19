@@ -58,20 +58,16 @@ angular.module('myproApp')
     };
   }])
 
-. service('fileUpload', ['$http', function ($http) {
+.service('fileUpload', ['$http', function ($http) {
   this.uploadFileToUrl = function(file, uploadUrl){
     var fd = new FormData();
     for(var key in file)
     fd.append('file', file[key]);
     console.info(fd);
-    $http.post(uploadUrl, fd, {
+    return $http.post(uploadUrl, fd, {
       transformRequest: angular.identity,
       headers: {'Content-Type': undefined}
     })
-      .success(function(){
-      })
-      .error(function(){
-      });
   }
 }]);
 
