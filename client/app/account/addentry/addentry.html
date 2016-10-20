@@ -23,30 +23,35 @@
 		
 			<div class="form-group" >				
 				<div class="form-check">
-						<label>
+						<input type="checkbox" id="all"  ng-model="entry.selectedAll" ng-click="entry.checkAll()"  >  
+						<label for="all">						
 							<span class="userimg"></span>
-							<input type="checkbox" ng-model="selectAll" ng-click="checkAll()" >  User
+							User							
 						</label>
-						<br>				
-					   <label>
-							<span class="userimg"></span>
-							<input type="checkbox" ng-model="entry.member.vishal"
-							ng-true-value="true" ng-false-value="false"> Vishal
+						<br>
+						
+						<input type="checkbox" ng-model="entry.member.vishal"
+						ng-true-value="true" id="user1" ng-false-value="false"> 
+					   <label for="user1">
+							<span class="userimg"></span>Vishal							
 						</label>
-						<label>
-							<span class="userimg"></span>
-							<input type="checkbox" ng-model="entry.member.mohsin"
-							ng-true-value="true" ng-false-value="false"> Mohsin
+						
+						<input type="checkbox" ng-model="entry.member.mohsin"
+							id="user2" ng-true-value="true" ng-false-value="false"> 
+						<label for="user2">
+							<span class="userimg"></span> Mohsin							
 						</label>
-						<label>
-							<span class="userimg"></span>
-							<input type="checkbox" ng-model="entry.member.vishnu"
-							ng-true-value="true" ng-false-value="false"> Vishnu
+						
+						<input type="checkbox" ng-model="entry.member.vishnu"
+							id="user3" ng-true-value="true" ng-false-value="false"> 
+						<label for="user3">
+							<span class="userimg"></span>Vishnu						
 						</label>
-						<label>
-							<span class="userimg"></span>
-							<input type="checkbox" ng-model="entry.member.aayush"
-							ng-true-value="true" ng-false-value="false"> Aayush
+						
+						<input type="checkbox" ng-model="entry.member.aayush"
+							id="user4" ng-true-value="true" ng-false-value="false"> 
+						<label for="user4">
+							<span class="userimg"></span>Aayush							
 						</label>						
 				 </div>
 			</div>
@@ -57,7 +62,7 @@
 			</div>
 			<div class="form-group" >
 			  <label> Purchase Date</label>
-			  <input type="date" class="form-control" ng-model="entry.date"/>
+			  <input type="date" id="datepicker" class="form-control" ng-model="entry.date"/>
 			</div>
 			
 			<div class="form-group" >

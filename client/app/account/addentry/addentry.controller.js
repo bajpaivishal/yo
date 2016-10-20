@@ -5,17 +5,21 @@ app.controller('addEntryCtrl', function ($scope,Entry) {
 	
 	$scope.entry = {};
 	$scope.entries = Entry.query({});
-	
-	
+
 	$scope.addentry = function(form) {
 		//console.log($scope.entry);
         Entry.save($scope.entry,function(data) {
-             $scope.entries.push(data.entries);
+             $scope.entries.push(data.newentry);
+			//console.log(data);
         });
     }
 	
 	$scope.removeEntry = function(id) {
 		Entry.remove({ id: id });
+		$scope.entries = $scope.entries.filter(function(elem){
+			return elem._id != id;
+		});
+		
     }
 
 });

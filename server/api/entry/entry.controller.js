@@ -34,7 +34,7 @@ exports.totalAmount = function(req, res) {
  * Creates a new student
  */
 exports.create = function (req, res, next) {
-	console.log(req.body.member);
+	//console.log(req.body.member);
 	var d = new Date(req.body.date);
 	var finaldate = d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear();
 	
