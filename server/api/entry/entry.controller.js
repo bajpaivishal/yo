@@ -41,9 +41,11 @@ exports.totalAmount = function(req, res) {
 				combi.push(innerTmp);
 			}
 		}
+		//console.log(combi);
 		
 		var memberMatchCombi = [];
 		combi.forEach((singleCombi)=>{
+			console.log(Object.keys(singleCombi));
 		var memberMatch = {};
 			singleCombi.forEach((user)=>{
 				memberMatch["member." + user.name] = true;
@@ -61,8 +63,10 @@ exports.totalAmount = function(req, res) {
 			function (err, Entry) {
 				if (err) return handleError(err);
 				response.push(Entry);
-				if(index == memberMatchCombi.length-1) 
-				res.status(200).json(response);
+				if(response.length == memberMatchCombi.length) {
+					res.status(200).json(response);
+				}
+				
 			}
 		);
 		console.log(response,"<<<<<<<<<<<");
