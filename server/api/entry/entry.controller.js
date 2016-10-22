@@ -48,18 +48,15 @@ exports.totalAmount = function(req, res) {
 		combi.forEach((singleCombi,index)=>{
 			console.log(Object.keys(singleCombi));
 		var memberMatch = {};
-		var objkey = "";
+		var objkey = [];
 			users.forEach((user)=>{
 				memberMatch["member." + user.name] = false;
 			});
 			singleCombi.forEach((user)=>{
 				memberMatch["member." + user.name] = true;
-				objkey += user.name;
-				objkey += ",";
-				//userMatch.push(user.name);
+				objkey.push(user.name);
 			});
-			//memberMatch && memberMatchCombi.push(memberMatch);
-			
+			objkey = objkey.join();
 			
 			Entry.aggregate(
 			[
