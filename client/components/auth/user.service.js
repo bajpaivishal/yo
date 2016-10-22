@@ -18,5 +18,5 @@ angular.module('myproApp')
           id:'me'
         }
       }
-	  });
+	});
   });

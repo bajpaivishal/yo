@@ -5,15 +5,11 @@
 
       <form class="form" name="form" ng-submit="addentry(form)" novalidate>
 		<div class="col-sm-4">
-			<h3>Add New Entry</h3>
 			<div class="form-group" >
 			  <label>Entry By </label>
 			  <select id="user" class="form-control" ng-model="entry.name">
 					<option value="" selected="selected"> -- Select -- </option>
-					<option value="aayush"> Aayush </option>
-					<option value="vishal"> Vishal </option>
-					<option value="Moshin"> Mohsin </option>
-					<option value="vishnu"> Vishnu </option>
+					<option value="{{ user.name }}" ng-repeat="user in users"> {{ user.name }} </option>
 			  </select>
 			</div>
 			<div class="form-group" >
@@ -23,37 +19,17 @@
 		
 			<div class="form-group" >				
 				<div class="form-check">
-						<input type="checkbox" id="all"  ng-model="entry.selectedAll" ng-click="entry.checkAll()"  >  
-						<label for="all">						
-							<span class="userimg"></span>
-							User							
-						</label>
-						<br>
-						
-						<input type="checkbox" ng-model="entry.member.vishal"
-						ng-true-value="true" id="user1" ng-false-value="false"> 
-					   <label for="user1">
-							<span class="userimg"></span>Vishal							
-						</label>
-						
-						<input type="checkbox" ng-model="entry.member.mohsin"
-							id="user2" ng-true-value="true" ng-false-value="false"> 
-						<label for="user2">
-							<span class="userimg"></span> Mohsin							
-						</label>
-						
-						<input type="checkbox" ng-model="entry.member.vishnu"
-							id="user3" ng-true-value="true" ng-false-value="false"> 
-						<label for="user3">
-							<span class="userimg"></span>Vishnu						
-						</label>
-						
-						<input type="checkbox" ng-model="entry.member.aayush"
-							id="user4" ng-true-value="true" ng-false-value="false"> 
-						<label for="user4">
-							<span class="userimg"></span>Aayush							
-						</label>						
+				  <input type="checkbox" id="all" ng-model="selectedAll" ng-click="checkAll()">  
+					<label for="all"><span class="userimg"></span>AllUser</label>
+					<br>				
+					<div ng-repeat="user in users">
+						<input type="checkbox" ng-model="entry.member[user.name]" id="{{ user.email }}" > 
+					   <label for="{{ user.email }}">
+						<span class="userimg"></span>{{user.name}}
+					   </label>
+					</div>						
 				 </div>
+				
 			</div>
 			  
 			<div class="form-group" >
@@ -74,7 +50,6 @@
       </form>
 		
 		<div class="col-sm-8">
-			<h3>List Items</h3>
 			<div class="table-responsive ">
 			  <table class="table table-bordered table-striped">
 			    <thead>
@@ -85,6 +60,7 @@
 					<th>Price</th>
 					<th>Date</th>
 					<th>Member</th>
+					<th>Per-head</th>
 					<th>Action</th>
 				  </tr>
 				</thead>
@@ -95,7 +71,8 @@
 					<td>{{ entry.product }}</td>
 					<td>{{ entry.price }}</td>
 					<td>{{ entry.date }}</td>
-					<td>{{ entry.member | memberInc }}</td>
+					<td>{{ entry.member | memberInc }} </td>
+					<td>{{ entry.perhead | number:2 }} </td>
 					<td><a class="btn btn-transparent btn-rounded" ng-click="removeEntry(entry._id);">Delete</a></td>
 				  </tr>
 				</tbody>

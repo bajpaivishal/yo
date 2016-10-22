@@ -7,7 +7,6 @@ angular.module('myproApp')
 	$scope.entry = {};
 	$scope.entries = Entry.query({});
 	
-
 	$scope.totalAmount = 	Entry.total();
 	Entry.total().$promise.then(function(data) {
 		$scope.sum = 0;
@@ -20,10 +19,13 @@ angular.module('myproApp')
 		})
 		
 		$scope.percandidate = $scope.sum / 4;		
-	});;
+	});
 
 	
-	
-
+	// user
+	$scope.users = User.query({});
+	$scope.users.$promise.then(function(data) {
+		$scope.userCount = $scope.users.length;		
+	})
 	
  });

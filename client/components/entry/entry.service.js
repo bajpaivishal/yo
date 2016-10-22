@@ -13,7 +13,7 @@ angular.module('myproApp')
 	  total: {
 			method: 'GET',
 			params: {
-				listCtrl: 'gettotal'
+				listCtrl: 'all'
 			},
 			isArray: true,
 		}

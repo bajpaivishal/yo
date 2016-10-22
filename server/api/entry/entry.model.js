@@ -8,6 +8,7 @@ var StudentSchema = new Schema({
   product: String,
   member: Object,
   memberPrice: Object,
+  perhead: Number,
   price: Number,
   date: String,
 });

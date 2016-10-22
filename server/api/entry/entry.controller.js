@@ -1,6 +1,7 @@
 'use strict';
 var _ = require('lodash');
 var Entry = require('./entry.model');
+var User = require('../user/user.model');
 
 
 /**
@@ -12,79 +13,65 @@ exports.index = function(req, res) {
    Entry.find({}, function (err, Entry) {
     if(err) return res.status(500).send(err);
     res.status(200).json(Entry);
-  }); 
+  }).sort({$natural:-1}); 
 };
 
 
 exports.totalAmount = function(req, res) {
-	Entry.aggregate(
-		[
-		   {$match : {}},{ $group : {_id:"$name",total:{$sum : "$price" },list:{$push : "$price" }} }
-		],
-        function (err, Entry) {
-            if (err) return handleError(err);
-			res.status(200).json(Entry);
-        }
-    );
-
+	
+	User.find({}, {name:1,_id:0}, function (err, users) {
+		var memberMatch = {};
+		users.forEach((user)=>{
+			memberMatch["member." + user.name] = true;
+		});
+		
+		console.log(memberMatch);
+		Entry.aggregate(
+			[
+			   {$match : memberMatch},{ $group : {_id:"$name",total:{$sum : "$price" },list:{$push : "$price" }} }
+			],
+			function (err, Entry) {
+				if (err) return handleError(err);
+				res.status(200).json(Entry);
+			}
+		);
+	});
 };
-
 
 /**
  * Creates a new student
  */
 exports.create = function (req, res, next) {
-	//console.log(req.body.member);
+
 	var d = new Date(req.body.date);
 	var finaldate = d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear();
 	
-	var total = 0;
-	if(req.body.member.vishal  == true){
-		total = total + 1
-	}
-	if(req.body.member.mohsin  == true){
-		total = total + 1
-	}
-	if(req.body.member.vishnu  == true){
-		total = total + 1
-	}
-	if(req.body.member.aayush  == true){
-		total = total + 1
-	}	
-	
-	var vishalPrice = 0;
-	var mohsinPrice = 0;
-	var vishnuPrice = 0;
-	var aayushPrice = 0;
-	
-	if(req.body.member.vishal  == true){
-		vishalPrice = req.body.price / total;
-	}
-	if(req.body.member.mohsin  == true){
-		mohsinPrice = req.body.price / total;
-	}
-	if(req.body.member.vishnu  == true){
-		vishnuPrice = req.body.price / total;
-	}
-	if(req.body.member.aayush  == true){
-		aayushPrice = req.body.price / total;
-	}
-	
-	
-	
-	
+	var allUser = req.body.member;
+	var fullPrice = req.body.price;
+	var perHead = 0;	
+	var selecteduserKeys = Object.keys(allUser);
+	var members = selecteduserKeys.length;
+	perHead = fullPrice / members;
+	var memberPriceKeys = Object.keys(req.body.member);
+	var memberPrice = {};
+	memberPriceKeys.forEach((member)=>{
+		return memberPrice[member] = perHead;
+	});
+	//console.log(memberPrice);
+
 	var newentry = new Entry({
 		"name": req.body.name,
 		"product": req.body.product,
 		"price": req.body.price,
 		"date": finaldate,
 		"member": req.body.member,
-		"memberPrice": {"aayush":aayushPrice,"vishnu":vishnuPrice,"mohsin":mohsinPrice,"vishal":vishalPrice}
+		"perhead": perHead,
+		"memberPrice": memberPrice
 	});
 
-	  newentry.save(function(err, Entry) {
+	newentry.save(function(err, Entry) {
 		res.json({ newentry: newentry });
-	  });
+	});
 
 };
 

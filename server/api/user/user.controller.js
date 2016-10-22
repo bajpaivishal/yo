@@ -16,6 +16,7 @@ var validationError = function(res, err) {
 exports.index = function(req, res) {
   User.find({}, '-salt -hashedPassword', function (err, users) {
     if(err) return res.status(500).send(err);
+	//console.log(users);
     res.status(200).json(users);
   });
 };
@@ -91,7 +92,7 @@ exports.me = function(req, res, next) {
     if (err) return next(err);
     if (!user) return res.status(401).send('Unauthorized');
     res.json(user);
-	console.log(user);
+	//console.log(user);
   });
 };
 
