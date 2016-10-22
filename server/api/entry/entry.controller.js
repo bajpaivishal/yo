@@ -44,38 +44,44 @@ exports.totalAmount = function(req, res) {
 		//console.log(combi);
 		
 		var memberMatchCombi = [];
-		combi.forEach((singleCombi)=>{
+		var response = {};
+		combi.forEach((singleCombi,index)=>{
 			console.log(Object.keys(singleCombi));
 		var memberMatch = {};
+		var objkey = "";
 			users.forEach((user)=>{
 				memberMatch["member." + user.name] = false;
 			});
 			singleCombi.forEach((user)=>{
 				memberMatch["member." + user.name] = true;
+				objkey += user.name;
+				objkey += ",";
 				//userMatch.push(user.name);
 			});
-			memberMatch && memberMatchCombi.push(memberMatch);
-		});
-		
-		var response = {};
-		memberMatchCombi.forEach((memberMatch,index)=>{
-			//console.log(memberMatch,"+++++")
+			//memberMatch && memberMatchCombi.push(memberMatch);
+			
+			
 			Entry.aggregate(
 			[
 			   {$match : memberMatch},{ $group : {_id:"$name",total:{$sum : "$price" },list:{$push : "$price" },member:{$addToSet : "$member" }} }
 			],
 			function (err, Entry) {
 				if (err) return handleError(err);
-				response[JSON.stringify(memberMatch)] = Entry;
-									console.log(index,"====>>",Object.keys(response).length)
+				response[objkey] = Entry;
+									console.log(index,"====>>",Object.keys(response).length,combi.length)
 
-				if(Object.keys(response).length == memberMatchCombi.length-1) {
+				if(Object.keys(response).length == combi.length-1) {
 					res.status(200).json(response);
 				}
 				
 			}
 		);
+			
+			
 		});
+		
+		
+		
 		
 		
 		
