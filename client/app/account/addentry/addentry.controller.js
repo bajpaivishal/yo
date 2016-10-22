@@ -9,7 +9,7 @@ app.controller('addEntryCtrl', function ($scope,Entry,User) {
 	$scope.entries = Entry.query({});
 
 	$scope.addentry = function(form) {
-		//console.log($scope.entry);
+		console.log($scope.entry);
         Entry.save($scope.entry,function(data) {
              $scope.entries.push(data.newentry);
         });

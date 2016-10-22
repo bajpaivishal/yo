@@ -22,7 +22,7 @@
 				  <input type="checkbox" id="all" ng-model="selectedAll" ng-click="checkAll()">  
 					<label for="all"><span class="userimg"></span>AllUser</label>
 					<br>				
-					<div ng-repeat="user in users">
+					<div ng-repeat="user in users" ng-init="entry.member[user.name]=false">
 						<input type="checkbox" ng-model="entry.member[user.name]" id="{{ user.email }}" > 
 					   <label for="{{ user.email }}">
 						<span class="userimg"></span>{{user.name}}

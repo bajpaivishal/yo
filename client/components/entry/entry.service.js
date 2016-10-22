@@ -14,8 +14,8 @@ angular.module('myproApp')
 			method: 'GET',
 			params: {
 				listCtrl: 'all'
-			},
-			isArray: true,
+			}
+			//isArray: true,
 		}
       });
   });
