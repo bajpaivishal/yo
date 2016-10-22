@@ -2,28 +2,6 @@
 var app  = angular.module('myproApp');
 app.controller('addEntryCtrl', function ($scope,Entry,User) {
 
-var letters = ["vishnu", "aayush", "vishal" , "mohsin"];
-var combi = [];
-var temp= "";
-var letLen = Math.pow(2, letters.length);
-
-for (var i = 0; i < letLen ; i++){
-    innerTmp = [];
-    for (var j=0;j<letters.length;j++) {
-        if ((i & Math.pow(2,j))){
-			if(1)		
-            innerTmp.push(letters[j])
-			console.log("====")
-        }
-    }
-    if (innerTmp !== []) {
-		if(innerTmp.length != 1 && innerTmp.length != letters.length )
-        combi.push(innerTmp);
-    }
-}
-console.log(combi.join("\n"));
-
-
 	// User
 	$scope.entry = {};
 	$scope.users = User.query({});

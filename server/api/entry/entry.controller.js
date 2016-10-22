@@ -1,3 +1,4 @@
+
 'use strict';
 var _ = require('lodash');
 var Entry = require('./entry.model');
@@ -18,23 +19,59 @@ exports.index = function(req, res) {
 
 
 exports.totalAmount = function(req, res) {
-	
+
+
 	User.find({}, {name:1,_id:0}, function (err, users) {
+		// combinations
+		var letters = users;
+		var combi = [];
+		var temp= "";
+		var letLen = Math.pow(2, letters.length);
+
+		for (var i = 0; i < letLen ; i++){
+			var innerTmp = [];
+			for (var j=0;j<letters.length;j++) {
+				if ((i & Math.pow(2,j))){
+					if(1)		
+					innerTmp.push(letters[j])
+				}
+			}
+			if (innerTmp !== []) {
+				if(innerTmp.length != 1 && innerTmp.length != letters.length )
+				combi.push(innerTmp);
+			}
+		}
+		
+		var memberMatchCombi = [];
+		combi.forEach((singleCombi)=>{
 		var memberMatch = {};
-		users.forEach((user)=>{
-			memberMatch["member." + user.name] = true;
+			singleCombi.forEach((user)=>{
+				memberMatch["member." + user.name] = true;
+				//userMatch.push(user.name);
+			});
+			memberMatch && memberMatchCombi.push(memberMatch);
 		});
 		
-		console.log(memberMatch);
-		Entry.aggregate(
+		var response = [];
+		memberMatchCombi.forEach((memberMatch,index)=>{
+			Entry.aggregate(
 			[
 			   {$match : memberMatch},{ $group : {_id:"$name",total:{$sum : "$price" },list:{$push : "$price" }} }
 			],
 			function (err, Entry) {
 				if (err) return handleError(err);
-				res.status(200).json(Entry);
+				response.push(Entry);
+				if(index == memberMatchCombi.length-1) 
+				res.status(200).json(response);
 			}
 		);
+		console.log(response,"<<<<<<<<<<<");
+
+			
+		});
+		
+		
+		
 	});
 };
 
