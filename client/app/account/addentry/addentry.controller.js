@@ -36,7 +36,7 @@ app.controller('addEntryCtrl', function ($scope,Entry,User) {
 			singleCombi[0] && singleCombi.forEach((entry,i)=>{
 				singleCombi[0] && delete members[members.indexOf(singleCombi[i]._id)]
 			})
-						singleCombi[0] && console.log(members,"<<<<<<<<<<<<<")
+			// singleCombi[0] && console.log(members,"<<<<<<<<<<<<<")
 
 				singleCombi[0] && members.forEach((member)=>{
 					var defaultEntryOfCombi={};
@@ -92,14 +92,34 @@ app.controller('addEntryCtrl', function ($scope,Entry,User) {
 			return entry;
 		})
 		allPayDetails[singleCombiIndex] = newSingleCombi;
-			console.log(combiperHead,combiTotal)
+			// console.log(combiperHead,combiTotal)
 		})
 		
 		
 		console.log(allPayDetails)
-		
-
-	});
+		var payment = {};
+		$scope.users.forEach((member)=>{
+			var member = member.name;
+			payment[member] = {};
+			payment[member].list = [];
+			var total = 0;
+				allPayDetails.forEach((singleCombi)=>{
+					
+					singleCombi.forEach((entry)=>{
+						if(entry.member == member){
+							payment[member].list.push(entry.memberWillGet);
+							total += entry.memberWillGet;
+							// console.log(member,entry.memberWillGet);
+						}
+						//singleCombi && singleCombi.length && console.log(member)
+					})
+					
+				})
+				payment[member].total = total;
+			});
+			console.log(payment)
+			
+		});
 
 	$scope.checkAll = function () {
         if ($scope.selectedAll) {
