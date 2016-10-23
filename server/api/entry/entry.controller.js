@@ -49,6 +49,7 @@ exports.totalAmount = function(req, res) {
 			users.forEach((user)=>{
 				memberMatch["member." + user.name] = false;
 			});
+			//console.log(memberMatch);
 			singleCombi.forEach((user)=>{
 				memberMatch["member." + user.name] = true;
 				objkey.push(user.name);

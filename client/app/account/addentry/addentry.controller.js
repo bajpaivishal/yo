@@ -9,7 +9,7 @@ app.controller('addEntryCtrl', function ($scope,Entry,User) {
 	$scope.entries = Entry.query({});
 
 	$scope.addentry = function(form) {
-		console.log($scope.entry);
+		//console.log($scope.entry);
         Entry.save($scope.entry,function(data) {
              $scope.entries.push(data.newentry);
         });
@@ -25,9 +25,7 @@ app.controller('addEntryCtrl', function ($scope,Entry,User) {
 	//$scope.totalAmount = Entry.total();
 	var allPayDetails = [];
 	Entry.total().$promise.then((data)=>{	
-		console.log(data);
 		Object.keys(data).forEach((element)=>{
-			// console.log(data[element],"!!!!!!!!");
 			singleCombi = data[element];
 			///Start///Create Detaul Combi //////////////////
 			var members = singleCombi[0] && Object.keys(singleCombi[0].member[0]).filter((member)=>{
@@ -36,19 +34,18 @@ app.controller('addEntryCtrl', function ($scope,Entry,User) {
 			singleCombi[0] && singleCombi.forEach((entry,i)=>{
 				singleCombi[0] && delete members[members.indexOf(singleCombi[i]._id)]
 			})
-			// singleCombi[0] && console.log(members,"<<<<<<<<<<<<<")
 
-				singleCombi[0] && members.forEach((member)=>{
-					var defaultEntryOfCombi={};
-					defaultEntryOfCombi._id = member;
-					defaultEntryOfCombi.total = 0;
-					defaultEntryOfCombi.member = member;
-						data[element].push(defaultEntryOfCombi)	
-				})
+			singleCombi[0] && members.forEach((member)=>{
+				var defaultEntryOfCombi={};
+				defaultEntryOfCombi._id = member;
+				defaultEntryOfCombi.total = 0;
+				defaultEntryOfCombi.member = member;
+					data[element].push(defaultEntryOfCombi)	
+			})
 			
 			singleCombi = data[element];
-			
 			///End///Create Detaul Combi //////////////////
+			
 			var payMembers = [];
 			singleCombi.length && singleCombi.forEach((entry)=>{
 				var payDetail = {};
@@ -69,11 +66,6 @@ app.controller('addEntryCtrl', function ($scope,Entry,User) {
 			var eachMember = [];
 			var eachMember = data[element];
 			allPayDetails.push(payMembers);
-			
-			/* eachMember.forEach((particulat)=>{
-				//eachTotal = arr[particulat].total;
-				console.log([particulat]);
-			}) */
 		})	
 		allPayDetails.forEach((singleCombi,singleCombiIndex)=>{
 			var combiTotal = 0;
@@ -109,16 +101,16 @@ app.controller('addEntryCtrl', function ($scope,Entry,User) {
 						if(entry.member == member){
 							payment[member].list.push(entry.memberWillGet);
 							total += entry.memberWillGet;
-							// console.log(member,entry.memberWillGet);
 						}
-						//singleCombi && singleCombi.length && console.log(member)
 					})
-					
 				})
 				payment[member].total = total;
 			});
 			console.log(payment)
-			
+			$scope.finalPay = [];
+			Object.keys(payment).forEach((key)=>{
+				$scope.finalPay.push({name:key,amount:payment[key].total});
+			})
 		});
 
 	$scope.checkAll = function () {
