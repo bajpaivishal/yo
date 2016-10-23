@@ -22,13 +22,79 @@ app.controller('addEntryCtrl', function ($scope,Entry,User) {
 		})
     }
 	
-	
-	$scope.totalAmount = Entry.total();
-	console.log($scope.totalAmount);
+	//$scope.totalAmount = Entry.total();
+	var allPayDetails = [];
+	Entry.total().$promise.then((data)=>{	
+		console.log(data);
+		Object.keys(data).forEach((element)=>{
+			// console.log(data[element],"!!!!!!!!");
+			singleCombi = data[element];
+			///Start///Create Detaul Combi //////////////////
+			var members = singleCombi[0] && Object.keys(singleCombi[0].member[0]);
+			singleCombi[0] && delete members[members.indexOf(singleCombi[0]._id)]
+				singleCombi[0] && members.forEach((member)=>{
+					var defaultEntryOfCombi={};
+					defaultEntryOfCombi._id = member;
+					defaultEntryOfCombi.total = 0;
+					defaultEntryOfCombi.member = member;
+						data[element].push(defaultEntryOfCombi)	
+				})
+			singleCombi[0] && console.log(members,"<<<<<<<<<<<<<")
+			singleCombi = data[element];
+			
+			///End///Create Detaul Combi //////////////////
+			var payMembers = [];
+			singleCombi.length && singleCombi.forEach((entry)=>{
+				var payDetail = {};
+				var members = Object.keys(entry.member[0]).filter((member)=>{
+					return (entry.member[0][member]);
+				});
+				members = members.length;
+				var memberShouldGive = entry.total/members;
+				payDetail.member = entry._id;
+				payDetail.howWillGive = entry.member[0];
+				payDetail.total = entry.total;
+				payDetail.members = members;
+				payDetail.perHead = memberShouldGive;
+				payMembers.push(payDetail);
+			});
+			var eachTotal = 0;
+			var memberTotal = 0;
+			var eachMember = [];
+			var eachMember = data[element];
+			allPayDetails.push(payMembers);
+			
+			/* eachMember.forEach((particulat)=>{
+				//eachTotal = arr[particulat].total;
+				console.log([particulat]);
+			}) */
+		})	
+		allPayDetails.forEach((singleCombi,singleCombiIndex)=>{
+			var combiTotal = 0;
+			var combiperHead = 0;
+			var combiMembers = 0;
+		singleCombi.forEach((entry)=>{
+			combiTotal += entry.total;
+		})
+		combiMembers = singleCombi[0] && singleCombi[0].members
+		combiperHead = combiTotal/combiMembers;
+		
+		newSingleCombi = singleCombi.map((entry,i)=>{
+			entry.combiperHead = combiperHead;
+			entry.combiTotal = combiTotal;
+			entry.memberWillGet = entry.total-combiperHead;
+			return entry;
+		})
+		allPayDetails[singleCombiIndex] = newSingleCombi;
+			console.log(combiperHead,combiTotal)
+		})
+		
+		
+		console.log(allPayDetails)
+		
 
+	});
 
-	
-	
 	$scope.checkAll = function () {
         if ($scope.selectedAll) {
             $scope.selectedAll = true;

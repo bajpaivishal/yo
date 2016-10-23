@@ -20,14 +20,12 @@ exports.index = function(req, res) {
 
 exports.totalAmount = function(req, res) {
 
-
 	User.find({}, {name:1,_id:0}, function (err, users) {
 		// combinations
 		var letters = users;
 		var combi = [];
 		var temp= "";
 		var letLen = Math.pow(2, letters.length);
-
 		for (var i = 0; i < letLen ; i++){
 			var innerTmp = [];
 			for (var j=0;j<letters.length;j++) {
@@ -37,18 +35,17 @@ exports.totalAmount = function(req, res) {
 				}
 			}
 			if (innerTmp !== []) {
-				if(innerTmp.length && innerTmp.length != 1 && innerTmp.length != letters.length )
+				if(innerTmp.length && innerTmp.length != 1 )
 				combi.push(innerTmp);
 			}
 		}
 		//console.log(combi);
 		
-		var memberMatchCombi = [];
 		var response = {};
-		combi.forEach((singleCombi,index)=>{
-			console.log(Object.keys(singleCombi));
-		var memberMatch = {};
-		var objkey = [];
+		combi.forEach((singleCombi)=>{
+			//console.log(Object.keys(singleCombi));
+			var memberMatch = {};
+			var objkey = [];
 			users.forEach((user)=>{
 				memberMatch["member." + user.name] = false;
 			});
@@ -59,29 +56,19 @@ exports.totalAmount = function(req, res) {
 			objkey = objkey.join();
 			
 			Entry.aggregate(
-			[
-			   {$match : memberMatch},{ $group : {_id:"$name",total:{$sum : "$price" },list:{$push : "$price" },member:{$addToSet : "$member" }} }
-			],
-			function (err, Entry) {
-				if (err) return handleError(err);
-				response[objkey] = Entry;
-									console.log(index,"====>>",Object.keys(response).length,combi.length)
-
-				if(Object.keys(response).length == combi.length-1) {
-					res.status(200).json(response);
+				[
+				   {$match : memberMatch},{ $group : {_id:"$name",total:{$sum : "$price" },list:{$push : "$price" },member:{$addToSet : "$member" }} }
+				],
+				function (err, Entry) {
+					if (err) return handleError(err);
+					response[objkey] = Entry;
+					//console.log(index,"====>>",Object.keys(response).length,combi.length)
+					if(Object.keys(response).length == combi.length-1) {
+						res.status(200).json(response);
+					}				
 				}
-				
-			}
-		);
-			
-			
-		});
-		
-		
-		
-		
-		
-		
+			);		
+		});		
 	});
 };
 
@@ -96,10 +83,11 @@ exports.create = function (req, res, next) {
 	var allUser = req.body.member;
 	var fullPrice = req.body.price;
 	var perHead = 0;	
-	var selecteduserKeys = Object.keys(allUser);
-	var members = selecteduserKeys.length;
-	perHead = fullPrice / members;
+	var selecteduserKeys = Object.keys(allUser).filter((ele)=>allUser[ele]);
+	var each = selecteduserKeys.length;	
+	perHead = fullPrice / each;
 	var memberPriceKeys = Object.keys(req.body.member);
+	
 	var memberPrice = {};
 	memberPriceKeys.forEach((member)=>{
 		return memberPrice[member] = perHead;
