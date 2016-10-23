@@ -30,8 +30,14 @@ app.controller('addEntryCtrl', function ($scope,Entry,User) {
 			// console.log(data[element],"!!!!!!!!");
 			singleCombi = data[element];
 			///Start///Create Detaul Combi //////////////////
-			var members = singleCombi[0] && Object.keys(singleCombi[0].member[0]);
-			singleCombi[0] && delete members[members.indexOf(singleCombi[0]._id)]
+			var members = singleCombi[0] && Object.keys(singleCombi[0].member[0]).filter((member)=>{
+				return singleCombi[0].member[0][member];
+			});
+			singleCombi[0] && singleCombi.forEach((entry,i)=>{
+				singleCombi[0] && delete members[members.indexOf(singleCombi[i]._id)]
+			})
+						singleCombi[0] && console.log(members,"<<<<<<<<<<<<<")
+
 				singleCombi[0] && members.forEach((member)=>{
 					var defaultEntryOfCombi={};
 					defaultEntryOfCombi._id = member;
@@ -39,7 +45,7 @@ app.controller('addEntryCtrl', function ($scope,Entry,User) {
 					defaultEntryOfCombi.member = member;
 						data[element].push(defaultEntryOfCombi)	
 				})
-			singleCombi[0] && console.log(members,"<<<<<<<<<<<<<")
+			
 			singleCombi = data[element];
 			
 			///End///Create Detaul Combi //////////////////
